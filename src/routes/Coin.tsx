@@ -13,11 +13,6 @@ import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
 
-const Title = styled.h1`
-  font-size: 48px;
-  color: ${(props) => props.theme.accentColor};
-`;
-
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -34,6 +29,20 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const Back = styled.h1`
+  font-size: 30px;
+  font-weight: 500;
+  padding: 0px 20px;
+  background-color: #505050;
+  color: ${(props) => props.theme.accentColor};
+  text-align: center;
+`;
+
+const Title = styled.h1`
+  font-size: 48px;
+  color: ${(props) => props.theme.accentColor};
 `;
 
 const Overview = styled.div`
@@ -165,6 +174,9 @@ function Coin() {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </title>
       </Helmet>
+      <Back>
+        <Link to={`/`}>&larr; 코인 목록 보기</Link>
+      </Back>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -211,7 +223,7 @@ function Coin() {
 
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/:coinId/chart`}>
               <Chart coinId={coinId} />

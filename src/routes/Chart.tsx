@@ -15,6 +15,12 @@ interface IHistorical {
 interface ChartProps {
   coinId: string;
 }
+
+interface ChartData {
+  x?: string;
+  y?: number[];
+}
+
 function Chart({ coinId }: ChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
@@ -23,17 +29,25 @@ function Chart({ coinId }: ChartProps) {
       refetchInterval: 10000,
     }
   );
+
+  let chartdata: ChartData[] | undefined = [];
+  chartdata = data?.map((ohlcv) => {
+    return {
+      x: ohlcv.time_open,
+      y: [ohlcv.open, ohlcv.high, ohlcv.low, ohlcv.close],
+    };
+  });
+
   return (
     <div>
       {isLoading ? (
         "Loading chart..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "Price",
-              data: data?.map((price) => price.close),
+              data: chartdata,
             },
           ]}
           options={{
@@ -43,35 +57,20 @@ function Chart({ coinId }: ChartProps) {
             chart: {
               height: 300,
               width: 500,
-              toolbar: {
-                show: false,
-              },
-              background: "transparent",
-            },
-            grid: { show: false },
-            stroke: {
-              curve: "smooth",
-              width: 4,
             },
             yaxis: {
               show: false,
+              labels: {
+                show: false,
+              },
             },
             xaxis: {
               axisBorder: { show: false },
               axisTicks: { show: false },
               labels: { show: false },
-              type: "datetime",
-              categories: data?.map((price) => price.time_close),
-            },
-            fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
-            },
-            colors: ["#0fbcf9"],
-            tooltip: {
-              y: {
-                formatter: (value) => `$${value.toFixed(2)}`,
-              },
+              categories: data?.map(
+                (e) => `${Math.abs(data.indexOf(e) - data.length)} days ago`
+              ),
             },
           }}
         />
