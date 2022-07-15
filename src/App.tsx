@@ -96,7 +96,6 @@ function App() {
       <ChangeThemeBtn onClick={changeTheme}>
         {theme === dark ? "🌞" : "🌙"}
       </ChangeThemeBtn>
-
       <Router />
       <ReactQueryDevtools initialIsOpen={true} />
     </ThemeProvider>

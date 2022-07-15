@@ -21,7 +21,7 @@ const CoinsList = styled.ul``;
 
 const Coin = styled.li`
   background-color: white;
-  color: ${(props) => props.theme.textColor};
+  color: #2f3640;
   border-radius: 15px;
   margin-bottom: 10px;
   a {

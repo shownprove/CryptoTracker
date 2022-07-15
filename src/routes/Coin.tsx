@@ -61,6 +61,7 @@ const OverviewItem = styled.div`
     font-size: 10px;
     font-weight: 400;
     text-transform: uppercase;
+    color: wheat;
     margin-bottom: 5px;
   }
 `;
